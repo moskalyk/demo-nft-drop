@@ -1,0 +1,8 @@
+{
+    "build": {
+      "image": "node:alpine",
+      "command": "yarn && yarn build",
+      "publicDir": "public",
+      "baseDir": ""
+    }
+}
