@@ -127,7 +127,7 @@ const App = () => {
     const connectWallet = await wallet.connect({
       app: 'drop',
       authorize: true,
-      networkId: 8001,
+      networkId: 80001,
       settings: {
         theme: 'light'
       }
