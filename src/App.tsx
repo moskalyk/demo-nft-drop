@@ -220,10 +220,11 @@ const App = () => {
             <button className="connect-button" onClick={connect}>connect</button>
             <br/>
             <br/>
-            <img src={timeCycle} className='wheel-lg' id="cycle-time"/>
-            <img src={hexCycle} className='wheel' id="cycle-hex"/>
-            <img src={spaceCycle} className='wheel' id="cycle-space"/>
-          
+            <div className="row">
+                <div className="column"><img src={timeCycle} className='wheel-lg' id="cycle-time"/></div>
+                <div className="column"><img src={hexCycle} className='wheel' id="cycle-hex"/></div>
+                <div className="column"><img src={spaceCycle} className='wheel' id="cycle-space"/></div>
+              </div>
           </>
           )
       
