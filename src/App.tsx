@@ -9,6 +9,12 @@ import timePrompt from './assets/time.png'
 import hexPrompt from './assets/hex.png'
 import spacePrompt from './assets/space.png'
 
+import timeCycle from './assets/time_cycle.png'
+import hexCycle from './assets/hex_cycle.png'
+import spaceCycle from './assets/space_cycle.png'
+
+import abi from './abi'
+
 const indexer = new SequenceIndexerClient('https://mumbai-indexer.sequence.app')
 
 var startTime: any, endTime: any;
@@ -25,7 +31,7 @@ function end() {
 }
 
 // custom ERC1155 contract
-const contractAddress = '0xE5e38ce8A0bB588D606f7B4A4d92E96ee62576af'
+const CONTRACT_ADDRESS = '0xE5e38ce8A0bB588D606f7B4A4d92E96ee62576af'
 
 const App = () => {
   const [signedIn, setSignedIn] = useState(false)
@@ -38,10 +44,31 @@ const App = () => {
 
   sequence.initWallet('mumbai')
 
+  const wireCycles = async () => {
+    const provider = new ethers.providers.JsonRpcProvider('https://nodes.sequence.app/mumbai');
+    const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
+
+    const timeCount = Number(await contract.timeRandomness())
+    const hexCount = Number(await contract.hexRandomness())
+    const spaceCount = Number(await contract.spaceRandomness())
+
+    const total = timeCount + hexCount + spaceCount
+    console.log(timeCount)
+    console.log(hexCount)
+    console.log(spaceCount)
+    document.getElementById('cycle-time')!.style!.animation! = `cycle ${timeCount != 0 ? 10*(total/timeCount) : 0}s infinite linear`
+    document.getElementById('cycle-hex')!.style!.animation! = `cycle ${hexCount != 0 ? 10*(total/hexCount) : 0}s infinite linear`
+    document.getElementById('cycle-space')!.style!.animation! = `cycle ${spaceCount != 0 ? 10*(total/spaceCount) : 0}s infinite linear`
+  }
+
+  useEffect(() => {
+    wireCycles()
+  })
+
   async function checkBalances(){
     const nftBalances = await indexer.getTokenBalances({
-      contractAddress: contractAddress,
-      accountAddress: contractAddress,
+      contractAddress: CONTRACT_ADDRESS,
+      accountAddress: CONTRACT_ADDRESS,
       includeMetadata: true
     })
     return nftBalances.balances.map((balance) => { return {
@@ -60,12 +87,26 @@ const App = () => {
 
       const signer = wallet.getSigner()
 
+      let claim;
+
+      if(claimType == 'time') {
+        claim = 1
+      }
+      else if(claimType == 'hex') {
+        claim = 2
+      }
+      else {
+        claim = 0
+      }
+
+      console.log(claim)
+
       const data = erc1155Interface.encodeFunctionData(
-        'claim', [claimedNft, claimType == 'time' ? 0 : claimType == 'hex' ? 1 : 2]
+        'claim', [claimedNft, claim]
       )
 
       const transaction = {
-        to: contractAddress,
+        to: CONTRACT_ADDRESS,
         data: data
       }
 
@@ -140,11 +181,8 @@ const App = () => {
     <div >
       {/* Loading */}
       {transition == 'fade-out' && !reveal ? <div className="loading">Loading&#8230;</div> : null}
-      <br/>
-      <br/>
       {/* Banner */}
       <img className="center" src="https://sequence.xyz/sequence-wordmark.svg" />
-      <br/>
       <br/>
       {/* Pulled Item */}
       {
@@ -161,11 +199,9 @@ const App = () => {
       {
         signedIn ? 
           <>
-            <br/>
             { 
-              ! item ? <p className={`prompt ${transition}`}>claim an NFT card <br/><br/>choose your type of randomness</p> : null
+              ! item ? <p className={`prompt ${transition}`}>claim a card <br/><br/>choose your type of randomness</p> : null
             }
-            <br/>
             <div className={`container ${transition}`}>
               <img onClick={timeRandom} src={timePrompt} className="randomized-prompt" />
               <img onClick={hexRandom} src={hexPrompt} className="randomized-prompt"/>
@@ -177,8 +213,20 @@ const App = () => {
               </div>
             </div>
           </>
-        : 
-          <button className="connect-button" onClick={connect}>connect</button>
+        : (
+          <>
+            <p className='prompt'>mint an element <br/><br/>choosing your randomness</p>
+            <br/>
+            <button className="connect-button" onClick={connect}>connect</button>
+            <br/>
+            <br/>
+            <img src={timeCycle} className='wheel-lg' id="cycle-time"/>
+            <img src={hexCycle} className='wheel' id="cycle-hex"/>
+            <img src={spaceCycle} className='wheel' id="cycle-space"/>
+          
+          </>
+          )
+      
       }
     </div>
   );
