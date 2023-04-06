@@ -98,21 +98,18 @@ const App = () => {
   }
 
   const timeRandom = async () => {
-    console.log('time NFT')
     let balances = await checkBalances()
     const index = Math.floor(Array.from(Array(Math.floor(Math.random() * (balances).length * 20 + 1)).keys()).reduce((x,y) => x + Math.abs(Math.tan(y)))%(balances).length)
     claim(balances[index].id, 'time')
   }
 
   const hexRandom = async () => {
-    console.log('hex NFT')
     let balances = await checkBalances()
     const diff = ethers.BigNumber.from(ethers.utils.hexlify(ethers.utils.randomBytes(20)))
     claim(balances[Number(diff.toString().substring(0,6)) % balances.length].id, 'hex')
   }
 
   const spaceRandom = async () => {
-    console.log('space NFT')
     start()
     let balances = await checkBalances()
     const ttl = end()
