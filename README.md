@@ -1,6 +1,8 @@
 # demo-nft-drop
 This is a toy example for how to empower artists to drop ERC1155 NFTs via an interface that enables users to choose between 3 sources of randomization across: time, hex, & space.
 
+![shelf](./card_shelf.png)
+
 ## how to run
 ```
 $ yarn
