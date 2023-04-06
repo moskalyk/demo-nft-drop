@@ -24,8 +24,3 @@ Considering equal distribution of 6 items, taking the time for an average transa
 ## tools used
 - react
 - sequence
-
-TODO:
-- [ ] media upload to ipfs (i.e. web3.storage)
-- [ ] contract deploy
-- [ ] ui for assigning item quantity count
