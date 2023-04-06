@@ -5,6 +5,10 @@ import { sequence } from '0xsequence'
 
 import { SequenceIndexerClient } from '@0xsequence/indexer'
 
+import timePrompt from './assets/time.png'
+import hexPrompt from './assets/hex.png'
+import spacePrompt from './assets/space.png'
+
 const indexer = new SequenceIndexerClient('https://mumbai-indexer.sequence.app')
 
 var startTime: any, endTime: any;
@@ -162,13 +166,18 @@ const App = () => {
           <>
             <br/>
             { 
-              ! item ? <p className={`prompt ${transition}`}>claim an NFT, choose your type of randomness</p> : null
+              ! item ? <p className={`prompt ${transition}`}>claim an NFT card <br/><br/>choose your type of randomness</p> : null
             }
             <br/>
             <div className={`container ${transition}`}>
-              <div onClick={timeRandom}><p className="random">time</p></div>
-              <div onClick={hexRandom}><p className="random">hex</p></div>
-              <div onClick={spaceRandom}><p className="random">space</p></div>
+              <img onClick={timeRandom} src={timePrompt} className="randomized-prompt" />
+              <img onClick={hexRandom} src={hexPrompt} className="randomized-prompt"/>
+              <img onClick={spaceRandom} src={spacePrompt} className="randomized-prompt"/>
+              <div className="row">
+                <div className="column"><p className="random">time</p></div>
+                <div className="column"><p className="random">hex</p></div>
+                <div className="column"><p className="random">space</p></div>
+              </div>
             </div>
           </>
         : 

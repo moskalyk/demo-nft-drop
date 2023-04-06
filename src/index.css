@@ -12,19 +12,6 @@ code {
     monospace;
 }
 
-
-:root {
-  --grey: hsl(18deg 3% 24%);
-  --purple: hsl(262deg 99% 75%);
-  --purple-light: hsl(296deg 100% 86%);
-  --blue: hsl(212deg 100% 77%);
-  --blue-light: hsl(225deg 100% 86%);
-  --orange: hsl(13deg 98% 77%);
-  --orange-light: hsl(13deg 100% 86%);
-  --cubic-bezier: cubic-bezier(0.6, -1.2, 0.2, 2.2);
-  --animation-timing: 620ms;
-}
-
 html,
 body {
   width: 100%;
@@ -38,85 +25,6 @@ body {
   display: grid;
   place-items: center;
   padding: 1em;
-}
-
-.container {
-  max-width: 700px;
-  width: 400px;
-  aspect-ratio: 2/0.95;
-  background: var(--grey);
-  border-radius: 20px;
-  display: flex;
-  grid-gap: 2px;
-  padding: 2px;
-  display: flex;
-  align-items: center;
-}
-.container div {
-  height: 100%;
-  flex-grow: 1;
-  background: #000;
-  border-radius: 20px;
-  position: relative;
-  display: grid;
-  place-items: center;
-  transition: flex-grow var(--animation-timing) var(--cubic-bezier);
-  overflow: hidden;
-  /* Make the dots */
-  /* And color the dots */
-}
-.container div:after {
-  content: "";
-  display: block;
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  background: red;
-  border-radius: 100%;
-  transition: all calc(var(--animation-timing)*1.2) var(--cubic-bezier);
-}
-.container div:nth-child(1):after {
-  background: radial-gradient(var(--purple-light), var(--purple));
-}
-.container div:nth-child(2):after {
-  background: radial-gradient(var(--blue-light), var(--blue));
-}
-.container div:nth-child(3):after {
-  background: radial-gradient(var(--orange-light), var(--orange));
-}
-.container div:hover {
-  flex-grow: 2;
-  width: 10%;
-  animation: expando var(--animation-timing) ease;
-}
-.container div:hover:after {
-  width: 150px;
-  height: 150px;
-  transform: scale(3.5);
-  transition: transform calc(var(--animation-timing)*1.5) var(--cubic-bezier), border-radius calc(var(--animation-timing)*1.2) var(--cubic-bezier);
-}
-.container:hover div:not(:hover) {
-  flex-grow: 1;
-  transition: all var(--animation-timing) var(--cubic-bezier) reverse;
-}
-.container:hover div:not(:hover):after {
-  transition: all var(--animation-timing) ease;
-  animation: gelatine 500ms var(--cubic-bezier) 0.5s;
-}
-
-@keyframes gelatine {
-  from, to {
-    transform: scale(1, 1);
-  }
-  25% {
-    transform: scale(1, 1.1);
-  }
-  50% {
-    transform: scale(1.1, 1);
-  }
-  75% {
-    transform: scale(0.95, 1.05);
-  }
 }
 
 .random {
@@ -295,4 +203,47 @@ body {
 
 .item-card {
   width: 100px;
+}
+
+.randomized-prompt {
+  width: 150px;
+  height: 200px;
+  margin: 25px;
+  cursor: pointer;
+}
+
+.randomized-prompt:hover {
+  width: 180px;
+  height: 250px;
+  margin: 10px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.container {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+/* Centered text */
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.column {
+  float: left;
+  width: 33.33%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
 }
